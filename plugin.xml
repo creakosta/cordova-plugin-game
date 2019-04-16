@@ -23,7 +23,7 @@
     <platform name="android">
 		<preference name="APP_ID" />	
 
-	    <config-file target="res/xml/config.xml" parent="/*">
+	    <config-file target="config.xml" parent="/*">
 			<feature name="Game" >
 				<param name="android-package" value="com.cranberrygame.cordova.plugin.game.Game"/>
 			</feature>
@@ -38,8 +38,8 @@
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
         </config-file>		
 	
-		<source-file src="src/android/ids.xml" target-dir="res/values" />
-		<config-file target="res/values/ids.xml" parent="/*">
+		<source-file src="src/android/ids.xml" target-dir="app/src/main/res/values" />
+		<config-file target="app/src/main/res/values/ids.xml" parent="/*">
 			<string name="app_id">$APP_ID</string>
 		</config-file>
 		
