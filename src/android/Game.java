@@ -137,6 +137,7 @@ public class Game extends CordovaPlugin implements GameHelper.GameHelperListener
 			//webView
 			//				
 
+			final boolean userInitiated = args.getBoolean(0);
 			loginCC = callbackContext;
 			
 			final CallbackContext delayedCC = callbackContext;
