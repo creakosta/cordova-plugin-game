@@ -137,7 +137,6 @@ public class Game extends CordovaPlugin implements GameHelper.GameHelperListener
 			//webView
 			//				
 
-			final boolean userInitiated = args.getBoolean(0);
 			loginCC = callbackContext;
 			
 			final CallbackContext delayedCC = callbackContext;
@@ -157,7 +156,7 @@ public class Game extends CordovaPlugin implements GameHelper.GameHelperListener
 						onSignInSucceeded();						
 					}
 					else {
-						_login(userInitiated);
+						_login();
 					}
 				}
 			});
@@ -480,12 +479,10 @@ public class Game extends CordovaPlugin implements GameHelper.GameHelperListener
 		}
 		return mHelper;		
 	}	
-	private void _login(boolean userInitiated){
-		if (userInitiated) {
-			getGameHelper().beginUserInitiatedSignIn();
-		} else {
-			getGameHelper().onStart(this.cordova.getActivity());
-		}
+	private void _login(){
+		cordova.setActivityResultCallback(this);
+		//getGameHelper().beginUserInitiatedSignIn();		
+		getGameHelper().onStart(this.cordova.getActivity());
 	}
 	private void _logout(){
 		cordova.setActivityResultCallback(this);		
