@@ -798,6 +798,7 @@ public class Game extends CordovaPlugin implements GameHelper.GameHelperListener
 	//CordovaPlugin
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		super.onActivityResult(requestCode, resultCode, intent);
 		getGameHelper().onActivityResult(requestCode, resultCode, intent);
 	}
 
