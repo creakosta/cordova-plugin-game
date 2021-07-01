@@ -75,14 +75,7 @@
     </platform>
 	
     <!-- ios -->
-    <platform name="ios">
-	    
-        <config-file parent="UIRequiredDeviceCapabilities" target="*-Info.plist">
-            <array>
-                <string>gamekit</string>
-            </array>
-        </config-file>
-	    
+    <platform name="ios">	    
         <config-file target="config.xml" parent="/*">
 		    <feature name="Game">
 		        <param name="ios-package" value="Game" />
