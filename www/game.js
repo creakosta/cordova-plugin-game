@@ -1,3 +1,19 @@
+const boolToString = function(prop) {
+    if (prop === true)
+        return 'yes';
+    if (prop === false)
+        return 'no';
+
+    var propType = typeof prop;
+    if (propType == 'string') {
+        const noCase = prop.toLowerCase();
+        if (noCase == 'true')
+            return 'yes';
+        if (noCase == 'false')
+            return 'no';
+    }
+    return '';
+};
 
 module.exports = {
 	_loggedin: false,
@@ -131,13 +147,33 @@ module.exports = {
 			if (self.onGetPlayerImageFailed)			
 				self.onGetPlayerImageFailed();
 		}, "Game", "getPlayerImage", []);
-	},	
+	},
+        isAccessPointAvailable: function (success, failure) {
+                exec(success, failure, "Game", "isAccessPointAvailable", []);
+        },
+        modifyAccessPoint: function (success, failure, data) {
+        // make sure nothing bad can happen here
+        var sendData = {};
+        if (typeof data == 'object') {
+            if (typeof data.location == 'string') {
+                sendData.location = data.location;
+            }
+            if (typeof data.showHighlights != 'undefined') {
+                sendData.showHighlights = boolToString(data.showHighlights);
+            }
+            if (typeof data.active != 'undefined') {
+                sendData.active = boolToString(data.active);
+            }
+        }
+        exec(success, failure, "Game", "modifyAccessPoint", [sendData]);
+        },	
+	
 	onLoginSucceeded: null,
 	onLoginFailed: null,	
 	onSubmitScoreSucceeded: null,
 	onSubmitScoreFailed: null,
-    onGetPlayerScoreSucceeded: null,
-    onGetPlayerScoreFailed: null,	
+        onGetPlayerScoreSucceeded: null,
+        onGetPlayerScoreFailed: null,	
 	onUnlockAchievementSucceeded: null,
 	onUnlockAchievementFailed: null,
 	onIncrementAchievementSucceeded: null,
