@@ -18,7 +18,6 @@
 
 #import "Game.h"
 #import <Cordova/CDVViewController.h>
-#import "Cordova/CDV.h"
 
 #define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
