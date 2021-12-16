@@ -149,7 +149,7 @@ module.exports = {
 		}, "Game", "getPlayerImage", []);
 	},
         isAccessPointAvailable: function (success, failure) {
-                exec(success, failure, "Game", "isAccessPointAvailable", []);
+                cordova.exec(success, failure, "Game", "isAccessPointAvailable", []);
         },
         modifyAccessPoint: function (success, failure, data) {
         // make sure nothing bad can happen here
@@ -165,7 +165,7 @@ module.exports = {
                 sendData.active = boolToString(data.active);
             }
         }
-        exec(success, failure, "Game", "modifyAccessPoint", [sendData]);
+        cordova.exec(success, failure, "Game", "modifyAccessPoint", [sendData]);
         },	
 	
 	onLoginSucceeded: null,
