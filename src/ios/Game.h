@@ -35,5 +35,7 @@
 - (void)incrementAchievement:(CDVInvokedUrlCommand *)command;
 - (void)showAchievements:(CDVInvokedUrlCommand *)command;
 - (void)resetAchievements:(CDVInvokedUrlCommand *)command;
+- (void)isAccessPointAvailable:(CDVInvokedUrlCommand*)command;
+- (void)modifyAccessPoint:(CDVInvokedUrlCommand*)command;
 
 @end
