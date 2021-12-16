@@ -1,49 +1,5 @@
 Cordova Game plugin
 ====================
-
-# Overview #
-Show leaderboard and achievements (google play game and game center, SDK)
- 
-[android, ios] [cordova cli] [xdk] [phonegap build service]
-
-Requires google play developer account https://play.google.com/apps/publish/<br>
-Requires apple developer account https://developer.apple.com/devcenter/ios/index.action
-
-This is open source cordova plugin.
-
-You can see Cordova Plugins in one page: http://cranberrygame.github.io?referrer=github
-
-```c
-cf)
-
-Leaderboard game: Best score game
-	Limited life
-		ex) 1, 3
-	Limited time
-		ex) 30 seconds
-	Time is score
-	
-Achievement
-	Score
-		ex)	Achievement1 (Score 10)
-			Achievement2 (Score 30)
-			Achievement3 (Score 60)
-			Achievement4 (Score 100)
-			Achievement5 (Score 150)
-	Level
-		ex)	Achievement1 (Level 1)
-			Achievement2 (Level 2)
-			Achievement3 (Level 4)
-			Achievement4 (Level 6)
-			Achievement5 (Level 8)
-			Achievement6 (Level 10)
-	Category
-		ex)	Achievement1 (Number)
-			Achievement1 (Fruit)
-			Achievement1 (Color)
-			Achievement1 (Other)
-			Achievement1 (Challenge (Limited time))
-```
 # Change log #
 ```c
 	1.0.109
@@ -174,5 +130,3 @@ window.game.resetAchievements();//only supported on ios
 //
 window.game.getPlayerImage();
 
-
-# Credits #
