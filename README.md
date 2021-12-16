@@ -13,11 +13,9 @@ Cordova Game plugin
 ```
 # API #
 ```javascript
-//
 Add some basic support for GameCenter Access Point (iOS 14+).
 
 // CHECK IF AVAILABLE
-
 window.gamecenter.isAccessPointAvailable((available) => {
         // Basically you know the API should be there
         // Still need to call `checkAuth()` etc.
@@ -27,22 +25,17 @@ window.gamecenter.isAccessPointAvailable((available) => {
 
 
 // SHOW, HIDE and MODIFY the access point
-const accessPointProps = {
-    
+const accessPointProps = {  
     // OPTIONAL, sets position of the accesspoint
-    //
-    //
     // values: "TOP_LEFT"|"TOP_RIGHT"|"BOTTOM_LEFT"|"BOTTOM_RIGHT"
     // maps to: https://developer.apple.com/documentation/gamekit/gkaccesspointlocation?language=objc
     location: "TOP_LEFT",  
     
     // OPTIONAL, if highlights shall be shown
-    //
     // maps to: https://developer.apple.com/documentation/gamekit/gkaccesspoint/3618827-showhighlights?language=objc
     showHighlights: true,
     
     // OPTIONAL, enable/disable access point
-    //
     // maps to: https://developer.apple.com/documentation/gamekit/gkaccesspoint/3618827-showhighlights?language=objc
     active: true,  
 };
