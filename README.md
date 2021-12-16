@@ -14,7 +14,8 @@ Cordova Game plugin
 		Basic support for GameCenter Access Point (iOS 14+).
 ```
 # API #
-Add some basic support for GameCenter Access Point (iOS 14+).
+Basic support for GameCenter Access Point for iOS 14+ (from CSchnackenberg plugin)
+
 https://developer.apple.com/design/human-interface-guidelines/game-center/overview/access-point/
 ```javascript
 // CHECK IF AVAILABLE
@@ -53,7 +54,10 @@ window.game.modifyAccessPoint(() => {
 
 // EXAMPLE hide access point
 window.game.modifyAccessPoint(() => {}, () => {}, { active: false });
+```
+Usage (from Cranberrygame plugin)
 
+```javascript
 //
 var leaderboardId = "REPLACE_THIS_WITH_YOUR_LEADERBOARD_ID";
 var achievementId1 = "REPLACE_THIS_WITH_YOUR_ACHIEVEMENT_ID1";
