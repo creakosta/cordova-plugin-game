@@ -17,7 +17,7 @@
 //License: MIT (http://opensource.org/licenses/MIT)
  
 #import <Foundation/Foundation.h>
-#import "Cordova/CDV.h"
+
 #import <Cordova/CDVPlugin.h>
 #import <GameKit/GameKit.h>
 
