@@ -10,13 +10,16 @@ Cordova Game plugin
 		Fixed crash issue when submit score after logout.
 	1.0.115
 		Refixed crash issue when submit score after logout.
+	1.0.116
+		Basic support for GameCenter Access Point (iOS 14+).
 ```
 # API #
 ```javascript
 Add some basic support for GameCenter Access Point (iOS 14+).
+https://developer.apple.com/design/human-interface-guidelines/game-center/overview/access-point/
 
 // CHECK IF AVAILABLE
-window.gamecenter.isAccessPointAvailable((available) => {
+window.game.isAccessPointAvailable((available) => {
         // Basically you know the API should be there
         // Still need to call `checkAuth()` etc.
     },
@@ -40,7 +43,7 @@ const accessPointProps = {
     active: true,  
 };
 
-window.gamecenter.modifyAccessPoint(() => {
+window.game.modifyAccessPoint(() => {
         // success!
     }, (err) => {
         // failed!
@@ -50,7 +53,7 @@ window.gamecenter.modifyAccessPoint(() => {
 
 
 // EXAMPLE hide access point
-window.gamecenter.modifyAccessPoint(() => {}, () => {}, { active: false });
+window.game.modifyAccessPoint(() => {}, () => {}, { active: false });
 
 //
 var leaderboardId = "REPLACE_THIS_WITH_YOUR_LEADERBOARD_ID";
