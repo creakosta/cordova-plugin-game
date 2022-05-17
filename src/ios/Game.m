@@ -300,22 +300,31 @@
     //https://github.com/leecrossley/cordova-plugin-game-center/blob/master/src/ios/GameCenter.m
     NSString *leaderboardId = (NSString *) [command.arguments objectAtIndex:0];
     
-    GKGameCenterViewController *gameCenterController = [[GKGameCenterViewController alloc] init];
-    if (gameCenterController != nil)
-    {
+    if (@available(iOS 14.0, *)) {
+        GKGameCenterViewController *gameCenterController = [[GKGameCenterViewController alloc] initWithLeaderboardID:leaderboardId playerScope:GKLeaderboardPlayerScopeGlobal timeScope:GKLeaderboardTimeScopeAllTime];
+        
         gameCenterController.gameCenterDelegate = self;
-        
-        if (leaderboardId.length > 0)
-        {
-            gameCenterController.leaderboardIdentifier = leaderboardId;
-        }
-
-        gameCenterController.viewState = GKGameCenterViewControllerStateLeaderboards;
-        
         [self.viewController presentViewController:gameCenterController animated:YES completion:nil];
     }
     else
     {
+        GKGameCenterViewController *gameCenterController = [[GKGameCenterViewController alloc] init];
+        if (gameCenterController != nil)
+        {
+            gameCenterController.gameCenterDelegate = self;
+            
+            if (leaderboardId.length > 0)
+            {
+                gameCenterController.leaderboardIdentifier = leaderboardId;
+            }
+ 
+            gameCenterController.viewState = GKGameCenterViewControllerStateLeaderboards;
+            
+            [self.viewController presentViewController:gameCenterController animated:YES completion:nil];
+        }
+        else
+        {
+        }
     }
 //*/
 }
