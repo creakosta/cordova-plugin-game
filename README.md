@@ -1,22 +1,31 @@
 Cordova Game plugin
 ====================
-# Change log #
-```c
-	1.0.109
-		Fixed crash issue when show leaderbord after logout.
-	1.0.112
-		Added show leaderboards method.
-	1.0.113
-		Fixed crash issue when submit score after logout.
-	1.0.115
-		Refixed crash issue when submit score after logout.
-	1.0.121
-		Basic support for GameCenter Access Point (iOS 14+).
-```
 # API #
-Basic support for GameCenter Access Point for iOS 14+ (from CSchnackenberg plugin)
 
+Authorization
+
+```javascript
+
+window.game.login();
+
+window.game.onLoginSucceeded = function(result) {
+var playerDetail = result;
+alert('onLoginSucceeded: ' + playerDetail['playerId'] + ' ' + playerDetail['playerDisplayName']);
+};
+	
+window.game.onLoginFailed = function() {
+alert('onLoginFailed');
+};
+
+window.game.logout();
+
+alert(window.game.isLoggedIn());
+
+```
+
+Basic support for GameCenter Access Point for iOS 14+ (from CSchnackenberg plugin)
 https://developer.apple.com/design/human-interface-guidelines/game-center/overview/access-point/
+
 ```javascript
 // CHECK IF AVAILABLE
 window.game.isAccessPointAvailable((available) => {
@@ -97,13 +106,7 @@ document.addEventListener("deviceready", function(){
 	window.game.setUp();
 
 	//callback
-	window.game.onLoginSucceeded = function(result) {
-		var playerDetail = result;
-        alert('onLoginSucceeded: ' + playerDetail['playerId'] + ' ' + playerDetail['playerDisplayName']);
-    };	
-    window.game.onLoginFailed = function() {
-        alert('onLoginFailed');
-    };
+	
 	//	
     window.game.onSubmitScoreSucceeded = function() {
         alert('onSubmitScoreSucceeded');
