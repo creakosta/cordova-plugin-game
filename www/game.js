@@ -174,6 +174,13 @@ module.exports = {
 		function (error) {
 		}, "Game", "showDashboard", []);
 	},
+        showProfile: function () {
+		cordova.exec(
+		function (result) {
+		}, 
+		function (error) {
+		}, "Game", "showProfile", []);
+	},
 	
 	onLoginSucceeded: null,
 	onLoginFailed: null,	
