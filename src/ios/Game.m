@@ -453,15 +453,6 @@
 	}];    
 }
 
-//GKDashboardViewControllerDelegate
-- (void)dashboardViewControllerDidFinish:(GKDashboardViewController *)viewController {
-/*
-    CDVViewController *vc = (CDVViewController *)[super viewController];
-    [vc dismissViewControllerAnimated:YES completion:nil];
-*/
-	[viewController dismissViewControllerAnimated:YES completion:nil];
-}
-
 //GKLeaderboardViewControllerDelegate
 - (void)leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController {
 /*
@@ -570,9 +561,6 @@
         gameCenterController.viewState = GKGameCenterViewControllerStateDashboard;
         
         [self.viewController presentViewController:gameCenterController animated:YES completion:nil];
-    }
-    else
-    {
     }
 }
 
