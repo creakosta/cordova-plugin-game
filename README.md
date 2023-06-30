@@ -37,7 +37,7 @@ Leaderboards
 
 ```javascript
 
-window.game.getPlayerScore(leaderboardId);
+window.game.getPlayerScore(leaderboardId); //leaderboard id
 
 window.game.submitScore(leaderboardId, 5); //leaderboard id, score
 
@@ -58,7 +58,7 @@ window.game.onGetPlayerScoreFailed = function() {
 alert('onGetPlayerScoreFailed');
 };
 
-window.game.showLeaderboard(leaderboardId); //leaderboard id
+window.game.showLeaderboard(leaderboardId);
 
 window.game.showLeaderboards();
 
@@ -140,5 +140,21 @@ window.game.modifyAccessPoint(() => {
 
 // EXAMPLE hide access point
 window.game.modifyAccessPoint(() => {}, () => {}, { active: false });
+
+```
+
+Dashboard 
+
+```javascript
+
+window.game.showDashboard();
+
+```
+
+Profile
+
+```javascript
+
+window.game.showProfile();
 
 ```
