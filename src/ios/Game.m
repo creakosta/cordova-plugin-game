@@ -561,6 +561,7 @@
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
+
 - (void)showDashboard:(CDVInvokedUrlCommand *)command {
     GKGameCenterViewController *gameCenterController = [[GKGameCenterViewController alloc] init];
     if (gameCenterController != nil)
