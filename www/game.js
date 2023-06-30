@@ -167,6 +167,13 @@ module.exports = {
         }
         cordova.exec(success, failure, "Game", "modifyAccessPoint", [sendData]);
         },	
+	showDashboard: function () {
+		cordova.exec(
+		function (result) {
+		}, 
+		function (error) {
+		}, "Game", "showDashboard", []);
+	},
 	
 	onLoginSucceeded: null,
 	onLoginFailed: null,	
