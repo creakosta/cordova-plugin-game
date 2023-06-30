@@ -563,4 +563,16 @@
     }
 }
 
+- (void)showProfile:(CDVInvokedUrlCommand *)command {
+    GKGameCenterViewController *gameCenterController = [[GKGameCenterViewController alloc] init];
+    if (gameCenterController != nil)
+    {
+        gameCenterController.gameCenterDelegate = self;
+        
+        gameCenterController.viewState = GKGameCenterViewControllerStateLocalPlayerProfile;
+        
+        [self.viewController presentViewController:gameCenterController animated:YES completion:nil];
+    }
+}
+
 @end
