@@ -38,5 +38,6 @@
 - (void)isAccessPointAvailable:(CDVInvokedUrlCommand*)command;
 - (void)modifyAccessPoint:(CDVInvokedUrlCommand*)command;
 - (void)showDashboard:(CDVInvokedUrlCommand*)command;
+- (void)showProfile:(CDVInvokedUrlCommand*)command;
 
 @end
