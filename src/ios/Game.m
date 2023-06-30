@@ -490,6 +490,7 @@
 - (void)dealloc {
     self.leaderboardController = nil;
     self.achievementsController = nil;
+    self.dashboardController = nil;
     
     [super dealloc];
 }
