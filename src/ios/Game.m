@@ -24,6 +24,7 @@
 @interface Game ()
 @property (nonatomic, retain) GKLeaderboardViewController *leaderboardController;
 @property (nonatomic, retain) GKAchievementViewController *achievementsController;
+@property (nonatomic, retain) GKDashboardViewController *dashboardController;
 @end
 
 @implementation Game
