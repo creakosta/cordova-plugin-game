@@ -453,6 +453,15 @@
 	}];    
 }
 
+//GKDashboardViewControllerDelegate
+- (void)dashboardViewControllerDidFinish:(GKDashboardViewController *)viewController {
+/*
+    CDVViewController *vc = (CDVViewController *)[super viewController];
+    [vc dismissViewControllerAnimated:YES completion:nil];
+*/
+	[viewController dismissViewControllerAnimated:YES completion:nil];
+}
+
 //GKLeaderboardViewControllerDelegate
 - (void)leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController {
 /*
@@ -549,6 +558,20 @@
     }
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+- (void)showDashboard:(CDVInvokedUrlCommand *)command {
+    GKGameCenterViewController *gameCenterController = [[GKGameCenterViewController alloc] init];
+    if (gameCenterController != nil)
+    {
+        gameCenterController.gameCenterDelegate = self;
+        
+        gameCenterController.viewState = GKGameCenterViewControllerStateDashboard;
+        
+        [self.viewController presentViewController:gameCenterController animated:YES completion:nil];
+    }
+    else
+    {
+    }
 }
 
 @end
