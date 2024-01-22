@@ -82,14 +82,6 @@
 		        <param name="onload" value="true" />
 		    </feature>
         </config-file>
-
-	<config-file parent="com.apple.developer.game-center" target="Entitlements-Release.plist">
-          <true/>
-        </config-file>
-
-	<config-file parent="com.apple.developer.game-center" target="Entitlements-Debug.plist">
-          <true/>
-        </config-file>
                
         <header-file src="src/ios/Game.h" compiler-flags="-fno-objc-arc" />
         <source-file src="src/ios/Game.m" compiler-flags="-fno-objc-arc" />
