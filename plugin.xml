@@ -87,7 +87,5 @@
         <source-file src="src/ios/Game.m" compiler-flags="-fno-objc-arc" />
         
         <framework src="GameKit.framework" />
-	<framework src="SwiftUI.framework" /> 
-	<framework src="UIKit.framework" /> 
     </platform>	
 </plugin>
