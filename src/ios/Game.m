@@ -300,7 +300,7 @@
     //https://github.com/leecrossley/cordova-plugin-game-center/blob/master/src/ios/GameCenter.m
     NSString *leaderboardId = (NSString *) [command.arguments objectAtIndex:0];
     
-    if (@available(iOS 14.0, iPadOS 14.0, *)) {
+    if (@available(iOS 14.0, *)) {
         GKGameCenterViewController *gameCenterController = [[GKGameCenterViewController alloc] initWithLeaderboardID:leaderboardId playerScope:GKLeaderboardPlayerScopeGlobal timeScope:GKLeaderboardTimeScopeAllTime];
         
         gameCenterController.gameCenterDelegate = self;
