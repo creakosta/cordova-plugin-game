@@ -22,7 +22,7 @@
 #import <SwiftUI/SwiftUI.h>
 #import <UIKit/UIKit.h>
 
-@interface Game : CDVPlugin <GKLeaderboardViewControllerDelegate,GKAchievementViewControllerDelegate,GKGameCenterControllerDelegate>
+@interface Game : CDVPlugin <GKLeaderboardViewControllerDelegate,GKAchievementViewControllerDelegate,GKGameCenterControllerDelegate,SKStoreProductViewController>
 
 - (void)setUp:(CDVInvokedUrlCommand *)command;
 - (void)login:(CDVInvokedUrlCommand *)command;
