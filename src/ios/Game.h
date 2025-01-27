@@ -19,8 +19,7 @@
 #import <Foundation/Foundation.h>
 
 #import <Cordova/CDVPlugin.h>
-#import <SwiftUI/SwiftUI.h>
-#import <UIKit/UIKit.h>
+#import <GameKit/GameKit.h>
 
 @interface Game : CDVPlugin <GKLeaderboardViewControllerDelegate,GKAchievementViewControllerDelegate,GKGameCenterControllerDelegate,SKStoreProductViewController>
 
@@ -40,6 +39,5 @@
 - (void)modifyAccessPoint:(CDVInvokedUrlCommand*)command;
 - (void)showDashboard:(CDVInvokedUrlCommand*)command;
 - (void)showProfile:(CDVInvokedUrlCommand*)command;
-- (void)showSKOverlay:(CDVInvokedUrlCommand*)command;
 
 @end
