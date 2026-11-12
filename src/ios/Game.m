@@ -111,8 +111,8 @@
                     NSString *displayName = [GKLocalPlayer localPlayer].alias;
                     
                     NSDictionary* playerDetail = @{
-                                                   @"playerId":playerID,
-                                                   @"playerDisplayName":displayName
+                                                   @"playerId":(playerID ?: @""),
+                                                   @"playerDisplayName":(displayName ?: @"")
                                                    };
                     
                     CDVPluginResult* pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:playerDetail];
@@ -129,11 +129,12 @@
                     
                     // Called the second time with result
                     if (error != nil) {
-                        
-                        UIAlertView *alert4 = [[UIAlertView alloc] initWithTitle:@"Alert" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                        [alert4 show];
-                        
-                        
+                        // UIAlertView was removed here: on recent iOS versions
+                        // -[UIAlertView initWithFrame:] throws an NSException and
+                        // crashes the app (SIGABRT) when Game Center auth fails.
+                        // The error is passed to the JS error callback instead.
+                        NSLog(@"[Game] Game Center authentication failed: %@", error);
+
                         //CDVPluginResult* pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
                         //[pr setKeepCallbackAsBool:YES];
                         //[self.commandDelegate sendPluginResult:pr callbackId:command.callbackId];
@@ -146,8 +147,8 @@
                         NSString *displayName = [GKLocalPlayer localPlayer].alias;
                         
                         NSDictionary* playerDetail = @{
-                                                       @"playerId":playerID,
-                                                       @"playerDisplayName":displayName
+                                                       @"playerId":(playerID ?: @""),
+                                                       @"playerDisplayName":(displayName ?: @"")
                                                        };
                         
                         CDVPluginResult* pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:playerDetail];
@@ -419,13 +420,13 @@
 
 - (void)showAchievements:(CDVInvokedUrlCommand *)command {//cranberrygame
     //[self.commandDelegate runInBackground:^{
-        if ( self.achievementsController == nil ) {
-            self.achievementsController = [[GKAchievementViewController alloc] init];
-            self.achievementsController.achievementDelegate = self;//
+        // GKAchievementViewController is deprecated; use GKGameCenterViewController.
+        GKGameCenterViewController *gameCenterController = [[[GKGameCenterViewController alloc] init] autorelease];
+        if (gameCenterController != nil) {
+            gameCenterController.gameCenterDelegate = self;
+            gameCenterController.viewState = GKGameCenterViewControllerStateAchievements;
+            [self.viewController presentViewController:gameCenterController animated:YES completion:nil];
         }
-        CDVViewController *vc = (CDVViewController *)[super viewController];
-        [vc presentViewController:self.achievementsController animated:YES completion: ^{
-        }];
     //}];//cranberrygame
 }
 
