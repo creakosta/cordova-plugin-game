@@ -21,16 +21,16 @@ window.game.logout();
 
 alert(window.game.isLoggedIn());
 
+window.game.onGetPlayerImageSucceeded = function (blob) {
+    var url = URL.createObjectURL(blob);
+    alert('url: ' + url);
+};
+
+window.game.onGetPlayerImageFailed = function (err) {
+alert('avatar error:', err);
+};
+
 window.game.getPlayerImage();
-
-window.game.onGetPlayerImageSucceeded = function(result) {
-var playerImageUrl = result;
-alert('onGetPlayerImageSucceeded: ' + playerImageUrl);
-};
-
-window.game.onGetPlayerImageFailed = function() {
-alert('onGetPlayerImageFailed');
-};
 
 ```
 Leaderboards
