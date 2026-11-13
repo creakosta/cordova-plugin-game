@@ -173,50 +173,43 @@
 }
 
 - (void)getPlayerImage:(CDVInvokedUrlCommand *)command {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *playerImageUrl = [documentsDirectory stringByAppendingPathComponent: @"user.jpg" ];
+    // Returns the player's avatar as binary PNG data (ArrayBuffer in JS),
+    // instead of a path to a file in the app's Documents folder.
+    // Optional argument 0: "small" or "normal" (default "normal").
 
-    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:playerImageUrl];    
-    if(fileExists){
-		NSLog(@"%@", playerImageUrl);
-		
-		CDVPluginResult* pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:playerImageUrl];
-		//[pr setKeepCallbackAsBool:YES];
-		[self.commandDelegate sendPluginResult:pr callbackId:command.callbackId];
-		//CDVPluginResult* pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
-		//[pr setKeepCallbackAsBool:YES];
-		//[self.commandDelegate sendPluginResult:pr callbackId:command.callbackId];	
+    // Clean up the file cached by older versions of the plugin.
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *oldCachedImage = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"user.jpg"];
+    [[NSFileManager defaultManager] removeItemAtPath:oldCachedImage error:nil];
+
+    GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+    if (!localPlayer.authenticated) {
+        CDVPluginResult* pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Player is not authenticated"];
+        [self.commandDelegate sendPluginResult:pr callbackId:command.callbackId];
+        return;
     }
-    else{
-		GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
-        [localPlayer loadPhotoForSize:GKPhotoSizeSmall withCompletionHandler: ^(UIImage *photo, NSError *error) {            
-            if (photo != nil)
-            {
-                NSData* data = UIImageJPEGRepresentation(photo, 0.8);
-                [data writeToFile:playerImageUrl atomically:YES];
-				NSLog(@"%@", playerImageUrl);
-				
-				CDVPluginResult* pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:playerImageUrl];
-				//[pr setKeepCallbackAsBool:YES];
-				[self.commandDelegate sendPluginResult:pr callbackId:command.callbackId];
-				//CDVPluginResult* pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
-				//[pr setKeepCallbackAsBool:YES];
-				//[self.commandDelegate sendPluginResult:pr callbackId:command.callbackId];				
+
+    NSString *sizeArg = [command argumentAtIndex:0 withDefault:@"normal"];
+    GKPhotoSize photoSize = ([sizeArg isKindOfClass:[NSString class]] && [sizeArg isEqualToString:@"small"])
+        ? GKPhotoSizeSmall
+        : GKPhotoSizeNormal;
+
+    [localPlayer loadPhotoForSize:photoSize withCompletionHandler:^(UIImage *photo, NSError *error) {
+        CDVPluginResult* pr = nil;
+        if (photo != nil) {
+            NSData *data = UIImagePNGRepresentation(photo);
+            if (data != nil) {
+                pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:data];
+            } else {
+                pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Could not encode player photo"];
             }
-            else if (error != nil)
-            {
-                NSLog(@"%@", [error localizedDescription]);
-                
-				//CDVPluginResult* pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-				//[pr setKeepCallbackAsBool:YES];
-				//[self.commandDelegate sendPluginResult:pr callbackId:command.callbackId];
-				CDVPluginResult* pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
-				//[pr setKeepCallbackAsBool:YES];
-				[self.commandDelegate sendPluginResult:pr callbackId:command.callbackId];
-            }
-        }];
-    }
+        } else {
+            NSString *message = (error != nil) ? [error localizedDescription] : @"Player has no photo";
+            NSLog(@"[Game] getPlayerImage failed: %@", message);
+            pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:message];
+        }
+        [self.commandDelegate sendPluginResult:pr callbackId:command.callbackId];
+    }];
 }
 
 - (void)getPlayerScore:(CDVInvokedUrlCommand *)command {
