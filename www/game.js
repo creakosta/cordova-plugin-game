@@ -138,6 +138,7 @@ module.exports = {
 	},	
 	getPlayerImage: function (size) {
 		// iOS: returns a base64 data URL ("data:image/png;base64,...").
+		// size (optional): pixels, e.g. '128' or 128 -> 128x128 image.
 		// Android: still returns the image URI string from Google Play Games.
 		var self = this;
 		cordova.exec(function (result) {
@@ -147,7 +148,7 @@ module.exports = {
 		function (error) {
 			if (self.onGetPlayerImageFailed)
 				self.onGetPlayerImageFailed(error);
-		}, "Game", "getPlayerImage", size ? [size] : []);
+		}, "Game", "getPlayerImage", size ? [String(size)] : []);
 	},
         isAccessPointAvailable: function (success, failure) {
                 cordova.exec(success, failure, "Game", "isAccessPointAvailable", []);
