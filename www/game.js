@@ -137,15 +137,12 @@ module.exports = {
 		}, "Game", "resetAchievements", []);
 	},	
 	getPlayerImage: function (size) {
-		// iOS: resolves with a Blob (image/png).
+		// iOS: returns a base64 data URL ("data:image/png;base64,...").
 		// Android: still returns the image URI string from Google Play Games.
 		var self = this;
 		cordova.exec(function (result) {
-			var playerImage = result;
-			if (result instanceof ArrayBuffer)
-				playerImage = new Blob([result], { type: 'image/png' });
 			if (self.onGetPlayerImageSucceeded)
-				self.onGetPlayerImageSucceeded(playerImage);
+				self.onGetPlayerImageSucceeded(result);
 		},
 		function (error) {
 			if (self.onGetPlayerImageFailed)
