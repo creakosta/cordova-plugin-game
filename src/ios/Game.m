@@ -173,8 +173,9 @@
 }
 
 - (void)getPlayerImage:(CDVInvokedUrlCommand *)command {
-    // Returns the player's avatar as binary PNG data (ArrayBuffer in JS),
-    // instead of a path to a file in the app's Documents folder.
+    // Returns the player's avatar as a base64 data URL
+    // ("data:image/png;base64,..."), instead of a path to a file
+    // in the app's Documents folder.
     // Optional argument 0: "small" or "normal" (default "normal").
 
     // Clean up the file cached by older versions of the plugin.
@@ -199,7 +200,8 @@
         if (photo != nil) {
             NSData *data = UIImagePNGRepresentation(photo);
             if (data != nil) {
-                pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:data];
+                NSString *dataUrl = [@"data:image/png;base64," stringByAppendingString:[data base64EncodedStringWithOptions:0]];
+                pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:dataUrl];
             } else {
                 pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Could not encode player photo"];
             }
