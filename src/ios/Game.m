@@ -172,11 +172,32 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"gamecenter:/me/signout"]];
 }
 
+// Scales the image to exactly size x size pixels (aspect fill, centered crop).
+- (UIImage *)resizedPlayerImage:(UIImage *)image toPixelSize:(CGFloat)size {
+    CGSize target = CGSizeMake(size, size);
+    UIGraphicsImageRendererFormat *format = [UIGraphicsImageRendererFormat preferredFormat];
+    format.scale = 1.0;      // 1 point = 1 pixel, so the result is exactly size x size px
+    format.opaque = NO;      // keep transparency
+
+    CGFloat srcW = image.size.width * image.scale;
+    CGFloat srcH = image.size.height * image.scale;
+    CGFloat ratio = MAX(size / srcW, size / srcH);
+    CGFloat drawW = srcW * ratio;
+    CGFloat drawH = srcH * ratio;
+    CGRect drawRect = CGRectMake((size - drawW) / 2.0, (size - drawH) / 2.0, drawW, drawH);
+
+    UIGraphicsImageRenderer *renderer = [[[UIGraphicsImageRenderer alloc] initWithSize:target format:format] autorelease];
+    return [renderer imageWithActions:^(UIGraphicsImageRendererContext *context) {
+        [image drawInRect:drawRect];
+    }];
+}
+
 - (void)getPlayerImage:(CDVInvokedUrlCommand *)command {
     // Returns the player's avatar as a base64 data URL
     // ("data:image/png;base64,..."), instead of a path to a file
     // in the app's Documents folder.
-    // Optional argument 0: "small" or "normal" (default "normal").
+    // Optional argument 0: size in pixels, e.g. "128" or 128 -> 128x128 PNG.
+    // Without it, the photo is returned in the size Game Center provides.
 
     // Clean up the file cached by older versions of the plugin.
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -190,15 +211,25 @@
         return;
     }
 
-    NSString *sizeArg = [command argumentAtIndex:0 withDefault:@"normal"];
-    GKPhotoSize photoSize = ([sizeArg isKindOfClass:[NSString class]] && [sizeArg isEqualToString:@"small"])
-        ? GKPhotoSizeSmall
-        : GKPhotoSizeNormal;
+    // Accepts a number (128) or a numeric string ("128"). 0 = no resizing.
+    id sizeArg = [command argumentAtIndex:0 withDefault:nil];
+    NSInteger requestedSize = 0;
+    if ([sizeArg isKindOfClass:[NSNumber class]] || [sizeArg isKindOfClass:[NSString class]]) {
+        requestedSize = [sizeArg integerValue];
+    }
+    if (requestedSize < 0) requestedSize = 0;
+    if (requestedSize > 2048) requestedSize = 2048;
+
+    // Small source photo is enough for small avatars; otherwise take the large one.
+    GKPhotoSize photoSize = (requestedSize > 0 && requestedSize <= 64) ? GKPhotoSizeSmall : GKPhotoSizeNormal;
 
     [localPlayer loadPhotoForSize:photoSize withCompletionHandler:^(UIImage *photo, NSError *error) {
         CDVPluginResult* pr = nil;
         if (photo != nil) {
-            NSData *data = UIImagePNGRepresentation(photo);
+            UIImage *result = (requestedSize > 0)
+                ? [self resizedPlayerImage:photo toPixelSize:(CGFloat)requestedSize]
+                : photo;
+            NSData *data = UIImagePNGRepresentation(result);
             if (data != nil) {
                 NSString *dataUrl = [@"data:image/png;base64," stringByAppendingString:[data base64EncodedStringWithOptions:0]];
                 pr = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:dataUrl];
