@@ -21,9 +21,9 @@ window.game.logout();
 
 alert(window.game.isLoggedIn());
 
-window.game.onGetPlayerImageSucceeded = function (blob) {
-    var url = URL.createObjectURL(blob);
-    alert('url: ' + url);
+window.game.onGetPlayerImageSucceeded = function (result) {
+    var PlayerImage = result;
+    alert('onGetPlayerImageSucceeded: ' + PlayerImage);
 };
 
 window.game.onGetPlayerImageFailed = function (err) {
