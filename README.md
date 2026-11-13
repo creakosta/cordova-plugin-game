@@ -30,7 +30,7 @@ window.game.onGetPlayerImageFailed = function (err) {
 alert('avatar error:', err);
 };
 
-window.game.getPlayerImage();
+window.game.getPlayerImage(128);   // 128×128
 
 ```
 Leaderboards
