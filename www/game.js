@@ -136,17 +136,21 @@ module.exports = {
 				self.onResetAchievementsFailed();
 		}, "Game", "resetAchievements", []);
 	},	
-	getPlayerImage: function () {
+	getPlayerImage: function (size) {
+		// iOS: resolves with a Blob (image/png).
+		// Android: still returns the image URI string from Google Play Games.
 		var self = this;
 		cordova.exec(function (result) {
-			var playerImageUrl = result;
-			if (self.onGetPlayerImageSucceeded)			
-				self.onGetPlayerImageSucceeded(playerImageUrl);
-		}, 
+			var playerImage = result;
+			if (result instanceof ArrayBuffer)
+				playerImage = new Blob([result], { type: 'image/png' });
+			if (self.onGetPlayerImageSucceeded)
+				self.onGetPlayerImageSucceeded(playerImage);
+		},
 		function (error) {
-			if (self.onGetPlayerImageFailed)			
-				self.onGetPlayerImageFailed();
-		}, "Game", "getPlayerImage", []);
+			if (self.onGetPlayerImageFailed)
+				self.onGetPlayerImageFailed(error);
+		}, "Game", "getPlayerImage", size ? [size] : []);
 	},
         isAccessPointAvailable: function (success, failure) {
                 cordova.exec(success, failure, "Game", "isAccessPointAvailable", []);
@@ -186,8 +190,8 @@ module.exports = {
 	onLoginFailed: null,	
 	onSubmitScoreSucceeded: null,
 	onSubmitScoreFailed: null,
-        onGetPlayerScoreSucceeded: null,
-        onGetPlayerScoreFailed: null,	
+    onGetPlayerScoreSucceeded: null,
+    onGetPlayerScoreFailed: null,	
 	onUnlockAchievementSucceeded: null,
 	onUnlockAchievementFailed: null,
 	onIncrementAchievementSucceeded: null,
